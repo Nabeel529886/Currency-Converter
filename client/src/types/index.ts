@@ -18,3 +18,12 @@ export interface Currencies {
   name_plural: string;
   type: string;
 }
+
+export interface ConversionRecord {
+  id: number;
+  fromCurrency: string;
+  toCurrency: string;
+  amount: string;
+  result: string;
+  date: Date;
+}

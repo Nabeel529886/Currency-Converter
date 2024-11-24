@@ -1,46 +1,24 @@
-import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
-import { fetchConversionRate, fetchCurrencies } from "../api/convert";
-import { Currencies } from "../types";
 import AmountInputField from "../components/AmountInputField";
 import CurrencySelect from "../components/CurrencySelect";
-import { toast } from "react-toastify";
+import useConverter from "../hooks/useConverter";
 
 const Converter = () => {
-  const [amount, setAmount] = useState<string>("");
-  const [fromCurrency, setFromCurrency] = useState<string>("USD");
-  const [toCurrency, setToCurrency] = useState<string>("EUR");
-  const [result, setResult] = useState<string | null>(null);
-  const [converting, setIsConverting] = useState(false);
-  const [currencies, setCurrencies] = useState<Currencies[]>([]);
-
-  const handleConvert = async () => {
-    if (amount === "") {
-      toast.warn("Please enter an amount");
-      return;
-    }
-
-    setIsConverting(true);
-    const rateObj = await fetchConversionRate(fromCurrency, toCurrency);
-    const convertedAmount = parseFloat(amount) * rateObj.rate;
-    const resultString = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(
-      2
-    )} ${toCurrency}`;
-    setResult(resultString);
-    setIsConverting(false);
-  };
-
-  useEffect(() => {
-    (async () => {
-      const currencies = await fetchCurrencies();
-      setCurrencies(currencies);
-      setFromCurrency(currencies[0].code);
-      setToCurrency(currencies[1].code);
-    })();
-  }, []);
+  const {
+    converting,
+    currencies,
+    handleConvert,
+    result,
+    amount,
+    fromCurrency,
+    setAmount,
+    setFromCurrency,
+    setToCurrency,
+    toCurrency,
+  } = useConverter();
 
   return (
     <Card className="mb-4">
@@ -60,7 +38,11 @@ const Converter = () => {
             currencies={currencies}
             title="To Currency"
           />
-          <Button variant="primary" onClick={handleConvert}>
+          <Button
+            variant="primary"
+            onClick={handleConvert}
+            disabled={converting}
+          >
             Convert
           </Button>
         </Form>
