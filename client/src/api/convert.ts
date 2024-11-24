@@ -1,9 +1,15 @@
-export const fetchConversionRate = async (from: string, to: string) => {
+import { ApiResponse, ConversionRate } from "../types";
+import { BASE_API_URL } from "../utils/constants";
+
+export const fetchConversionRate = async (
+  from: string,
+  to: string
+): Promise<ConversionRate> => {
   const response = await fetch(
-    `http://localhost:3000/api/convert?base=${from}&target=${to}`
+    `${BASE_API_URL}/convert?base=${from}&target=${to}`
   );
 
-  const data = await response.json();
+  const data: ApiResponse<ConversionRate> = await response.json();
 
   return data.data;
 };

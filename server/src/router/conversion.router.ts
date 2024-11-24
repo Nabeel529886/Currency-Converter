@@ -16,10 +16,25 @@ conversionRouter.get("/", async (req: Request, res: Response) => {
 
     const data = await response.json();
 
+    if (data.errors) {
+      const error = Object.values(data.errors)[0] as string[];
+
+      res.status(400).json({
+        status: 400,
+        message: error[0],
+      });
+
+      return;
+    }
+
+    const conversionRate = Object.values(data.data) as number[];
+
     res.status(200).json({
       status: 200,
       message: "Converted Successfully",
-      data: data,
+      data: {
+        rate: conversionRate[0],
+      },
     });
 
     return;

@@ -2,7 +2,9 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import Spinner from "react-bootstrap/Spinner";
 import { fetchConversionRate } from "../api/convert";
+// import { Spinner } from "react-bootstrap";
 
 const currencies = [
   "USD",
@@ -21,15 +23,17 @@ const Converter = () => {
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
   const [toCurrency, setToCurrency] = useState<string>("EUR");
   const [result, setResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleConvert = async () => {
+    setLoading(true);
     const rateObj = await fetchConversionRate(fromCurrency, toCurrency);
-    const rate = rateObj.data[toCurrency];
-    const convertedAmount = parseFloat(amount) * rate;
+    const convertedAmount = parseFloat(amount) * rateObj.rate;
     const resultString = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(
       2
     )} ${toCurrency}`;
     setResult(resultString);
+    setLoading(false);
   };
 
   return (
@@ -79,8 +83,10 @@ const Converter = () => {
             Convert
           </Button>
         </Form>
-
-        {result && <Card.Text className="mt-3">{result}</Card.Text>}
+        {loading && <Spinner animation="border" className="mt-3" />}
+        {!loading && result && (
+          <Card.Text className="mt-3 fs-4">{result}</Card.Text>
+        )}
       </Card.Body>
     </Card>
   );
