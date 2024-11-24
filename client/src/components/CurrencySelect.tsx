@@ -3,7 +3,7 @@ import { Currencies } from "../types";
 
 interface CurrencySelectProps {
   value: string;
-  setFromCurrency: (value: string) => void;
+  setCurrency: (value: string) => void;
   currencies: Currencies[];
   title: string;
 }
@@ -11,7 +11,7 @@ interface CurrencySelectProps {
 const CurrencySelect = ({
   value,
   currencies,
-  setFromCurrency,
+  setCurrency,
   title,
 }: CurrencySelectProps) => {
   return (
@@ -20,7 +20,7 @@ const CurrencySelect = ({
       <Form.Select
         value={value}
         disabled={currencies.length === 0}
-        onChange={(e) => setFromCurrency(e.target.value)}
+        onChange={(e) => setCurrency(e.target.value)}
       >
         {currencies.map((currency) => (
           <option

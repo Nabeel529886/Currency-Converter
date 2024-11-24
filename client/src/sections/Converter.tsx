@@ -28,13 +28,13 @@ const Converter = () => {
           <AmountInputField amount={amount} setAmount={setAmount} />
           <CurrencySelect
             value={fromCurrency}
-            setFromCurrency={setFromCurrency}
+            setCurrency={setFromCurrency}
             currencies={currencies}
             title="From Currency"
           />
           <CurrencySelect
             value={toCurrency}
-            setFromCurrency={setToCurrency}
+            setCurrency={setToCurrency}
             currencies={currencies}
             title="To Currency"
           />
