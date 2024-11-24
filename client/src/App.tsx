@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import Converter from "./components/Converter";
+import Converter from "./sections/Converter";
 
 const App = () => {
   return (

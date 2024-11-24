@@ -1,4 +1,4 @@
-import { ApiResponse, ConversionRate } from "../types";
+import { ApiResponse, ConversionRate, Currencies } from "../types";
 import { BASE_API_URL } from "../utils/constants";
 
 export const fetchConversionRate = async (
@@ -10,6 +10,14 @@ export const fetchConversionRate = async (
   );
 
   const data: ApiResponse<ConversionRate> = await response.json();
+
+  return data.data;
+};
+
+export const fetchCurrencies = async (): Promise<Currencies[]> => {
+  const response = await fetch(`${BASE_API_URL}/currencies`);
+
+  const data: ApiResponse<Currencies[]> = await response.json();
 
   return data.data;
 };
